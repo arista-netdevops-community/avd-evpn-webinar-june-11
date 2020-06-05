@@ -1,6 +1,6 @@
 # Webinar: Automating EVPN with Ansible - June 11th, 2020
 
-![EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/aristanetworks/ansible-avd)  ![GitHub last commit](https://img.shields.io/github/last-commit/aristanetworks/ansible-avd) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/aristanetworks/ansible-avd)
+![EOS Automation](https://img.shields.io/badge/Arista-EOS%20Automation-blue) ![GitHub](https://img.shields.io/github/license/arista-netdevops-community/avd-evpn-webinar-june-11)  ![GitHub last commit](https://img.shields.io/github/last-commit/arista-netdevops-community/avd-evpn-webinar-june-11) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/arista-netdevops-community/avd-evpn-webinar-june-11)
 
 __WARNING:__ EVPN Webinar demo. Work in Progress.
 

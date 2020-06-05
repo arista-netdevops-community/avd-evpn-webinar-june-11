@@ -1,0 +1,71 @@
+port_profiles:
+
+  VLAN_10:
+    mode: access
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: true
+    vlans: "10"
+
+  VLAN_20:
+    mode: access
+    spanning_tree_portfast: edge
+    vlans: "20"
+
+  VLAN_30:
+    mode: access
+    spanning_tree_portfast: edge
+    vlans: "30"
+
+  VLAN_40:
+    mode: access
+    spanning_tree_portfast: edge
+    vlans: "40"
+
+
+servers:
+
+  HostA:
+    adapters:
+      - server_ports: [ E1 ]
+        switch_ports: [ Ethernet10 ]
+        switches: [ LEAF1A ]
+        profile: VLAN_10
+
+  HostB:
+    adapters:
+      - server_ports: [ E1 ]
+        switch_ports: [ Ethernet11 ]
+        switches: [ LEAF1A ]
+        profile: VLAN_20
+
+  HostC:
+    adapters:
+      - server_ports: [ E1, E2 ]
+        switch_ports: [ Ethernet10, Ethernet10 ]
+        switches: [ LEAF2A, LEAF2B ]
+        profile: VLAN_30
+        port_channel:
+          state: present
+          description: Po1
+          mode: active
+
+  HostD:
+    adapters:
+      - server_ports: [ E1 ]
+        switch_ports: [ Ethernet11 ]
+        switches: [ LEAF2B ]
+        profile: VLAN_10
+
+  HostE:
+    adapters:
+      - server_ports: [ E1 ]
+        switch_ports: [ Ethernet11 ]
+        switches: [ LEAF2A ]
+        profile: VLAN_20
+
+  HostF:
+    adapters:
+      - server_ports: [ E1 ]
+        switch_ports: [ Ethernet12 ]
+        switches: [ LEAF1A ]
+        profile: VLAN_40

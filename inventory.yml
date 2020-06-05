@@ -1,0 +1,37 @@
+all:
+  children:
+    AVD_LAB:
+      children:
+        CVP:
+          hosts:
+            CVP-1:
+# DC1 Fabric
+        DC1_FABRIC:
+          children:
+            DC1_SPINES:
+              hosts:
+                SPINE1:
+                  ansible_host: 192.168.100.31
+                SPINE2:
+                  ansible_host: 192.168.100.35
+            DC1_LEAFS:
+              children:
+                LEAF1:
+                  hosts:
+                    LEAF1A:
+                      ansible_host: 192.168.100.32
+                LEAF2:
+                  hosts:
+                    LEAF2A:
+                      ansible_host: 192.168.100.33
+                    LEAF2B:
+                      ansible_host: 192.168.100.34
+
+
+        DC1_TENANTS_NETWORKS:
+          children:
+            DC1_LEAFS:
+
+        DC1_SERVERS:
+          children:
+            DC1_LEAFS:

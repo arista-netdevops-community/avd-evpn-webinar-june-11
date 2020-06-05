@@ -1,0 +1,386 @@
+## Ansible Generated ##
+
+### LEAF1A ###
+
+
+### Leaf Info ###
+l3leaf_node_group: DC1_LEAF1
+switch_platform: 7280R
+leaf_bgp_as: 65002
+leaf_id: 9
+switch_mgmt_ip: 192.168.100.32/24
+leaf_filter_tenants: ['all']
+leaf_filter_tags: ['opzone', 'web', 'app', 'db']
+leaf_allowed_vrfs: ['A']
+leaf_allowed_svis: [10, 20, 30, 40]
+leaf_allowed_vlans: [10, 20, 30, 40]
+leaf_mlag: False
+
+service_routing_protocols_model: multi-agent
+ip_routing: true
+
+### Hardware Counters
+hardware_counters:
+
+### Daemon TerminAttr
+daemon_terminattr:
+  ingestgrpcurl:
+    ips:
+      - 192.168.100.240
+    port: 9910
+  ingestauth_key: magickey02122020
+  ingestvrf: MGMT
+  smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
+  ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
+
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+
+### Event Monitor ###
+event_monitor:
+  enabled: true
+
+### Event Handler ###
+event_handlers:
+
+### Load Interval ###
+load_interval:
+
+### Queue Monitor Lenght ###
+queue_monitor_length:
+  enabled: true
+
+### Logging ###
+logging:
+
+### Name Servers ###
+name_server:
+  source:
+    vrf: MGMT
+  nodes:
+    - 192.168.70.1
+
+### NTP Servers ###
+ntp_server:
+  local_interface:
+    vrf: MGMT
+    interface: Management1
+  nodes:
+    - 216.239.35.4
+
+### Redundancy ###
+redundancy:
+
+### Spanning-tree ###
+spanning_tree:
+  mode: mstp
+  priority: 4096
+
+
+### AAA authorization ###
+aaa_authorization:
+
+### local users ###
+local_users:
+  admin:
+    privilege: 15
+    role: network-admin
+    sha512_password: $6$xTFjLEjlpX/ZvgNp$3ARB.DYuWuJDHzph652u7BAkyQ6jni/NZqKRUQBDJxUL83QuL6/HBY4tL/UXuKr1n00yjwNHtUBn.UbixdLai0
+  arista:
+    privilege: 15
+    sha512_password: $6$RO7KPjCB0BtlFgcd$/7Lv7Pjj3/OUOIUmqk0NmB8218tnq3Qcjb20pF4Xb3VaoMEuXShWVpFGU.YTYBuQ5.e3SXOLrIEfXpFegrQDX.
+  cvpadmin:
+    privilege: 15
+    sha512_password: $6$u5wM2GSl324m5EF0$AM98W2MI4ISBciPXm6be8Q3RTykF3dCd2W3btVvhcBBKvKHjfbkeJfesbEWMcrYlbzzZbWdBcxF6U/Pe3xBYF1
+
+### Clock Timezone ###
+clock:
+  timezone: America/Detroit
+
+### VLANs ###
+vlans:
+
+## Tenant_A ##
+  10:
+    tenant: Tenant_A
+    name: Ten-opzone
+  20:
+    tenant: Tenant_A
+    name: Twenty-web
+  30:
+    tenant: Tenant_A
+    name: Thirty-app
+  40:
+    tenant: Tenant_A
+    name: Forty-db
+
+### VRFs ###
+vrfs:
+  MGMT:
+    ip_routing: False
+## Tenant_A ##
+  A:
+    tenant: Tenant_A
+    ip_routing: true
+
+### bfd multihop ###
+bfd_multihop:
+  interval: 300
+  min_rx: 300
+  multiplier: 3
+
+### Port-Channel Interfaces ###
+port_channel_interfaces:
+
+### Ethernet Interfaces ###
+ethernet_interfaces:
+  Ethernet1:
+    peer: SPINE1
+    peer_interface: Ethernet1
+    peer_type: spine
+    description: P2P_LINK_TO_SPINE1_Ethernet1
+    mtu: 9216
+    type: routed
+    ip_address: 10.1.1.33/31
+  Ethernet2:
+    peer: SPINE2
+    peer_interface: Ethernet1
+    peer_type: spine
+    description: P2P_LINK_TO_SPINE2_Ethernet1
+    mtu: 9216
+    type: routed
+    ip_address: 10.1.1.35/31
+  Ethernet10:
+    peer: HostA
+    peer_interface: E1
+    peer_type: server
+    description: HostA_E1
+    mode: access
+    vlans: 10
+    spanning_tree_portfast: edge
+    spanning_tree_bpdufilter: True
+  Ethernet11:
+    peer: HostB
+    peer_interface: E1
+    peer_type: server
+    description: HostB_E1
+    mode: access
+    vlans: 20
+    spanning_tree_portfast: edge
+  Ethernet12:
+    peer: HostF
+    peer_interface: E1
+    peer_type: server
+    description: HostF_E1
+    mode: access
+    vlans: 40
+    spanning_tree_portfast: edge
+
+
+### Loopback Interfaces ###
+loopback_interfaces:
+  Loopback0:
+    description: EVPN_Overlay_Peering
+    ip_address: 1.1.1.11/32
+
+  Loopback1:
+    description: VTEP_VXLAN_Tunnel_Source
+    ip_address: 2.2.2.11/32
+## Tenant_A ##
+  Loopback100:
+    description: A_VTEP_DIAGNOSTICS
+    vrf: A
+    ip_address: 10.255.1.11/32
+
+### Management Interfaces ###
+management_interfaces:
+  Management1:
+    description: oob_management
+    vrf: MGMT
+    ip_address: 192.168.100.32/24
+    gateway: 192.168.100.1
+
+### VLAN Interfaces ###
+vlan_interfaces:
+## Tenant_A ##
+  Vlan10:
+    tenant: Tenant_A
+    tags: ['opzone']
+    description: Ten-opzone
+    vrf: A
+    ip_address_virtual: 10.10.10.1/24
+  Vlan20:
+    tenant: Tenant_A
+    tags: ['web']
+    description: Twenty-web
+    vrf: A
+    ip_address_virtual: 20.20.20.1/24
+  Vlan30:
+    tenant: Tenant_A
+    tags: ['app']
+    description: Thirty-app
+    vrf: A
+    ip_address_virtual: 30.30.30.1/24
+  Vlan40:
+    tenant: Tenant_A
+    tags: ['db']
+    description: Forty-db
+    vrf: A
+    ip_address_virtual: 40.40.40.1/24
+
+### VxLAN interface ###
+vxlan_tunnel_interface:
+  Vxlan1:
+    description: LEAF1A_VTEP
+    source_interface: Loopback1
+    vxlan_udp_port: 4789
+    vxlan_vni_mappings:
+      vlans:
+## Tenant_A ##
+        10:
+          vni: 10010
+        20:
+          vni: 10020
+        30:
+          vni: 10030
+        40:
+          vni: 10040
+      vrfs:
+## Tenant_A ##
+        A:
+          vni: 51
+
+### TCAM Profiles ###
+tcam_profile:
+  - vxlan-routing
+
+### MAC address table ###
+mac_address_table:
+
+ip_virtual_router_mac_address: aa:aa:bb:bb:cc:cc
+
+virtual_source_nat_vrfs:
+## Tenant_A ##
+  A:
+    ip_address: 10.255.1.11
+
+### static routes ###
+static_routes:
+  - vrf: MGMT
+    destination_address_prefix: 0.0.0.0/0
+    gateway: 192.168.100.1
+
+### prefix-lists ###
+prefix_lists:
+  PL-LOOPBACKS-EVPN-OVERLAY:
+    sequence_numbers:
+      10:
+        action: "permit 1.1.1.0/24 eq 32"
+      20:
+        action: "permit 2.2.2.0/24 eq 32"
+  PL-P2P-UNDERLAY:
+    sequence_numbers:
+      10:
+        action: "permit 10.1.1.0/24 le 31"
+
+
+### route-maps ###
+route_maps:
+  RM-CONN-2-BGP:
+    sequence_numbers:
+      10:
+        type: permit
+        match: "ip address prefix-list PL-LOOPBACKS-EVPN-OVERLAY"
+### Routing - BGP ###
+router_bgp:
+  as: 65002
+  router_id: 1.1.1.11
+  bgp_defaults:
+    - update wait-install
+    - no bgp default ipv4-unicast
+    - distance bgp 20 200 200
+    - graceful-restart restart-time 300
+    - graceful-restart
+    - maximum-paths 2 ecmp 2
+  peer_groups:
+    IPv4-UNDERLAY-PEERS:
+      type: ipv4
+      remote_as: 65001
+      password: "AQQvKeimxJu+uGQ/yYvv9w=="
+      maximum_routes: 12000
+      send_community: true
+    EVPN-OVERLAY-PEERS:
+      type: evpn
+      remote_as: 65001
+      update_source: Loopback0
+      bfd: true
+      ebgp_multihop: 3
+      password: "q+VNViP5i4rVjW1cxFv2wA=="
+      send_community: true
+      maximum_routes: 0
+  neighbors:
+    10.1.1.32:
+      peer_group: IPv4-UNDERLAY-PEERS
+    10.1.1.34:
+      peer_group: IPv4-UNDERLAY-PEERS
+    1.1.1.1:
+      peer_group: EVPN-OVERLAY-PEERS
+    1.1.1.2:
+      peer_group: EVPN-OVERLAY-PEERS
+  redistribute_routes:
+    connected:
+      route_map: RM-CONN-2-BGP
+  address_family_evpn:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: true
+      IPv4-UNDERLAY-PEERS:
+        activate: false
+  address_family_ipv4:
+    peer_groups:
+      EVPN-OVERLAY-PEERS:
+        activate: false
+      IPv4-UNDERLAY-PEERS:
+        activate: true
+  vlan_aware_bundles:
+## Tenant_A ##
+    A:
+      rd: "1.1.1.11:51"
+      route_targets:
+        both:
+          - "51:51"
+      redistribute_routes:
+        - learned
+      vlan: 10,20,30,40
+  vlans:
+  vrfs:
+## Tenant_A ##
+    A:
+      router_id: 1.1.1.11
+      rd: "1.1.1.11:51"
+      route_targets:
+        import:
+          evpn:
+            - "51:51"
+        export:
+          evpn:
+            - "51:51"
+      redistribute_routes:
+        - connected
+
+### Routing - OSPF ###
+router_ospf:
+
+### Queue Monitor Streaming ###
+queue_monitor_streaming:
+  enable: True
+  vrf: MGMT
+
+### Management API http ###
+management_api_http:
+  enable_https: True
+  enable_vrfs:
+    MGMT:

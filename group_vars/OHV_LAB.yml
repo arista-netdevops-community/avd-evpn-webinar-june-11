@@ -21,7 +21,7 @@ local_users:
 cvp_instance_ips:
   - 192.168.100.240
 
-cvp_ingestauth_key: magickey02122020
+cvp_ingestauth_key: magickey04292020
 
 
 # OOB Management network default gateway.
@@ -83,9 +83,9 @@ management_ssh:
 # Ansible Credential and Authentication Mechanism
 ansible_connection: httpapi
 ansible_network_os: eos
-ansible_user: admin
+ansible_user: "{{ vault_ansible_user }}"
 # should use vault for passwords - leaving un-encrypted for ease of sharing for labs
-ansible_ssh_pass: admin
+ansible_ssh_pass: "{{ vault_ansible_ssh_pass }}"
 ansible_become: yes
 ansible_become_method: enable
 ansible_httpapi_use_ssl: true

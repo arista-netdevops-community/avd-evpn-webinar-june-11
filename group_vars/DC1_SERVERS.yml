@@ -26,46 +26,46 @@ servers:
 
   HostA:
     adapters:
-      - server_ports: [ E1 ]
+      - server_ports: [ eth0 ]
         switch_ports: [ Ethernet10 ]
         switches: [ LEAF1A ]
         profile: VLAN_10
 
   HostB:
     adapters:
-      - server_ports: [ E1 ]
+      - server_ports: [ eth0 ]
         switch_ports: [ Ethernet11 ]
         switches: [ LEAF1A ]
         profile: VLAN_20
 
   HostC:
     adapters:
-      - server_ports: [ E1, E2 ]
+      - server_ports: [ eth0, eth1 ]
         switch_ports: [ Ethernet10, Ethernet10 ]
         switches: [ LEAF2A, LEAF2B ]
         profile: VLAN_30
         port_channel:
           state: present
-          description: Po1
+          description: bond0
           mode: active
 
   HostD:
     adapters:
-      - server_ports: [ E1 ]
-        switch_ports: [ Ethernet11 ]
+      - server_ports: [ eth0 ]
+        switch_ports: [ Ethernet12 ]
         switches: [ LEAF2B ]
         profile: VLAN_10
 
   HostE:
     adapters:
-      - server_ports: [ E1 ]
-        switch_ports: [ Ethernet11 ]
-        switches: [ LEAF2A ]
+      - server_ports: [ eth0, eth1 ]
+        switch_ports: [ Ethernet11, Ethernet11 ]
+        switches: [ LEAF2A, LEAF2B ]
         profile: VLAN_20
 
   HostF:
     adapters:
-      - server_ports: [ E1 ]
+      - server_ports: [ eth0 ]
         switch_ports: [ Ethernet12 ]
         switches: [ LEAF1A ]
         profile: VLAN_40

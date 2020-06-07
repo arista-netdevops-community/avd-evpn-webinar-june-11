@@ -43,14 +43,14 @@ alias shprefix show bgp evpn route-type ip-prefix ipv4 detail | awk '/for ip-pre
 
 | CV Compression | Ingest gRPC URL | Ingest Authentication Key | Smash Excludes | Ingest Exclude | Ingest VRF |  NTP VRF |
 | -------------- | --------------- | ------------------------- | -------------- | -------------- | ---------- | -------- |
-| gzip | 192.168.100.240:9910 | magickey02122020 | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT |
+| gzip | 192.168.100.240:9910 | magickey04292020 | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT |
 
 ### TerminAttr Daemon Device Configuration
 
 ```eos
 !
 daemon TerminAttr
-   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.100.240:9910 -cvcompression=gzip -ingestauth=key,magickey02122020 -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
+   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.100.240:9910 -cvcompression=gzip -ingestauth=key,magickey04292020 -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
    no shutdown
 ```
 
@@ -313,7 +313,7 @@ vrf instance MGMT
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | --- | ---------- | ------------ |
-| Port-Channel10 | HostC_Po1 | 1500 | switched | access | 30 | - | 10 | - | - | - |
+| Port-Channel10 | HostC_bond0 | 1500 | switched | access | 30 | - | 10 | - | - | - |
 | Port-Channel47 | MLAG_PEER_LEAF2A_Po47 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
@@ -321,7 +321,7 @@ vrf instance MGMT
 ```eos
 !
 interface Port-Channel10
-   description HostC_Po1
+   description HostC_bond0
    switchport access vlan 30
    mlag 10
    spanning-tree portfast
@@ -342,8 +342,9 @@ interface Port-Channel47
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
 | Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.77/31 | - | - |
 | Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.79/31 | - | - |
-| Ethernet10 | HostC_E2 | *1500 | *switched | *access | *30 | - | - | - | 10 | active |
-| Ethernet11 | HostD_E1 | 1500 | switched | access | 10 | - | - | - | - | - |
+| Ethernet10 | HostC_eth1 | *1500 | *switched | *access | *30 | - | - | - | 10 | active |
+| Ethernet11 | HostE_eth1 | 1500 | switched | access | 20 | - | - | - | - | - |
+| Ethernet12 | HostD_eth0 | 1500 | switched | access | 10 | - | - | - | - | - |
 | Ethernet47 | MLAG_PEER_LEAF2A_Ethernet47 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
 | Ethernet48 | MLAG_PEER_LEAF2A_Ethernet48 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
 
@@ -366,11 +367,16 @@ interface Ethernet2
    ip address 10.1.1.79/31
 !
 interface Ethernet10
-   description HostC_E2
+   description HostC_eth1
    channel-group 10 mode active
 !
 interface Ethernet11
-   description HostD_E1
+   description HostE_eth1
+   switchport access vlan 20
+   spanning-tree portfast
+!
+interface Ethernet12
+   description HostD_eth0
    switchport access vlan 10
    spanning-tree portfast
    spanning-tree bpdufilter enable

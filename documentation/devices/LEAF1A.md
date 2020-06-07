@@ -43,14 +43,14 @@ alias shprefix show bgp evpn route-type ip-prefix ipv4 detail | awk '/for ip-pre
 
 | CV Compression | Ingest gRPC URL | Ingest Authentication Key | Smash Excludes | Ingest Exclude | Ingest VRF |  NTP VRF |
 | -------------- | --------------- | ------------------------- | -------------- | -------------- | ---------- | -------- |
-| gzip | 192.168.100.240:9910 | magickey02122020 | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT |
+| gzip | 192.168.100.240:9910 | magickey04292020 | ale,flexCounter,hardware,kni,pulse,strata | /Sysdb/cell/1/agent,/Sysdb/cell/2/agent | MGMT | MGMT |
 
 ### TerminAttr Daemon Device Configuration
 
 ```eos
 !
 daemon TerminAttr
-   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.100.240:9910 -cvcompression=gzip -ingestauth=key,magickey02122020 -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
+   exec /usr/bin/TerminAttr -ingestgrpcurl=192.168.100.240:9910 -cvcompression=gzip -ingestauth=key,magickey04292020 -smashexcludes=ale,flexCounter,hardware,kni,pulse,strata -ingestexclude=/Sysdb/cell/1/agent,/Sysdb/cell/2/agent -ingestvrf=MGMT -taillogs
    no shutdown
 ```
 
@@ -303,9 +303,9 @@ No Port-Channels defined
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
 | Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet1 | 9216 | routed | access | - | - | - | 10.1.1.33/31 | - | - |
 | Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet1 | 9216 | routed | access | - | - | - | 10.1.1.35/31 | - | - |
-| Ethernet10 | HostA_E1 | 1500 | switched | access | 10 | - | - | - | - | - |
-| Ethernet11 | HostB_E1 | 1500 | switched | access | 20 | - | - | - | - | - |
-| Ethernet12 | HostF_E1 | 1500 | switched | access | 40 | - | - | - | - | - |
+| Ethernet10 | HostA_eth0 | 1500 | switched | access | 10 | - | - | - | - | - |
+| Ethernet11 | HostB_eth0 | 1500 | switched | access | 20 | - | - | - | - | - |
+| Ethernet12 | HostF_eth0 | 1500 | switched | access | 40 | - | - | - | - | - |
 
 *Inherited from Port-Channel Interface
 
@@ -326,18 +326,18 @@ interface Ethernet2
    ip address 10.1.1.35/31
 !
 interface Ethernet10
-   description HostA_E1
+   description HostA_eth0
    switchport access vlan 10
    spanning-tree portfast
    spanning-tree bpdufilter enable
 !
 interface Ethernet11
-   description HostB_E1
+   description HostB_eth0
    switchport access vlan 20
    spanning-tree portfast
 !
 interface Ethernet12
-   description HostF_E1
+   description HostF_eth0
    switchport access vlan 40
    spanning-tree portfast
 ```

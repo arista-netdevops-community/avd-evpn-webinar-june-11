@@ -18,7 +18,7 @@ daemon_terminattr:
     ips:
       - 192.168.100.240
     port: 9910
-  ingestauth_key: magickey02122020
+  ingestauth_key: magickey04292020
   ingestvrf: MGMT
   smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
   ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"

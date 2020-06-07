@@ -34,7 +34,7 @@ daemon_terminattr:
     ips:
       - 192.168.100.240
     port: 9910
-  ingestauth_key: magickey02122020
+  ingestauth_key: magickey04292020
   ingestvrf: MGMT
   smashexcludes: "ale,flexCounter,hardware,kni,pulse,strata"
   ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
@@ -166,7 +166,7 @@ port_channel_interfaces:
       - LEAF_PEER_L3
       - MLAG
   Port-Channel10:
-    description: HostC_Po1
+    description: HostC_bond0
     vlans: 30
     mode: access
     mlag: 10
@@ -209,9 +209,9 @@ ethernet_interfaces:
       mode: active
   Ethernet10:
     peer: HostC
-    peer_interface: E1
+    peer_interface: eth0
     peer_type: server
-    description: HostC_E1
+    description: HostC_eth0
     mode: access
     vlans: 30
     spanning_tree_portfast: edge
@@ -220,9 +220,9 @@ ethernet_interfaces:
       mode: "active"
   Ethernet11:
     peer: HostE
-    peer_interface: E1
+    peer_interface: eth0
     peer_type: server
-    description: HostE_E1
+    description: HostE_eth0
     mode: access
     vlans: 20
     spanning_tree_portfast: edge

@@ -1,6 +1,6 @@
 all:
   children:
-    AVD_LAB:
+    OHV_LAB:
       children:
         CVP:
           hosts:
@@ -35,3 +35,7 @@ all:
         DC1_SERVERS:
           children:
             DC1_LEAFS:
+
+    vault:
+      children:
+        OHV_LAB:

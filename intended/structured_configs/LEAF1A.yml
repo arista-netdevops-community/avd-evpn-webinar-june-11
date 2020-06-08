@@ -161,7 +161,6 @@ ethernet_interfaces:
     mode: access
     vlans: 10
     spanning_tree_portfast: edge
-    spanning_tree_bpdufilter: True
   Ethernet11:
     peer: HostB
     peer_interface: eth0

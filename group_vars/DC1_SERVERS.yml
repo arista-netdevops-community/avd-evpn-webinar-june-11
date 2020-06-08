@@ -3,7 +3,6 @@ port_profiles:
   VLAN_10:
     mode: access
     spanning_tree_portfast: edge
-    spanning_tree_bpdufilter: true
     vlans: "10"
 
   VLAN_20:
@@ -62,6 +61,11 @@ servers:
         switch_ports: [ Ethernet11, Ethernet11 ]
         switches: [ LEAF2A, LEAF2B ]
         profile: VLAN_20
+        port_channel:
+          state: present
+          description: bond0
+          mode: active
+
 
   HostF:
     adapters:

@@ -84,7 +84,6 @@ management_ssh:
 ansible_connection: httpapi
 ansible_network_os: eos
 ansible_user: "{{ vault_ansible_user }}"
-# should use vault for passwords - leaving un-encrypted for ease of sharing for labs
 ansible_ssh_pass: "{{ vault_ansible_ssh_pass }}"
 ansible_become: yes
 ansible_become_method: enable

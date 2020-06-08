@@ -33,3 +33,34 @@ tenants:
             tags: [ db ]
             enabled: true
             ip_address_virtual: 40.40.40.1/24
+
+# Tenant B Specific Information - VRFs / VLANs
+  # Tenant_B:
+  #   mac_vrf_vni_base: 20000
+  #   vrfs:
+  #     B:
+  #       vrf_vni: 151
+  #       vtep_diagnostic:
+  #         loopback: 101
+  #         loopback_ip_range: 10.255.2.0/24
+  #       svis:
+  #         11:
+  #           name: Eleven-opzone
+  #           tags: [ opzone ]
+  #           enabled: true
+  #           ip_address_virtual: 11.11.11.1/24
+  #         21:
+  #           name: TwentyOne-web
+  #           tags: [ web ]
+  #           enabled: true
+  #           ip_address_virtual: 21.21.21.1/24
+  #         31:
+  #           name: ThirtyOne-app
+  #           tags: [ app ]
+  #           enabled: true
+  #           ip_address_virtual: 31.31.31.1/24
+  #         41:
+  #           name: FortyOne-db
+  #           tags: [ db ]
+  #           enabled: true
+  #           ip_address_virtual: 41.41.41.1/24

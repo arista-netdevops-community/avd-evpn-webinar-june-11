@@ -10,10 +10,10 @@ leaf_bgp_as: 65002
 leaf_id: 9
 switch_mgmt_ip: 192.168.100.32/24
 leaf_filter_tenants: ['Tenant_A']
-leaf_filter_tags: ['opzone', 'web', 'app', 'db']
+leaf_filter_tags: ['opzone', 'web', 'db']
 leaf_allowed_vrfs: ['A']
-leaf_allowed_svis: [10, 20, 30, 40]
-leaf_allowed_vlans: [10, 20, 30, 40]
+leaf_allowed_svis: [10, 20]
+leaf_allowed_vlans: [10, 20]
 leaf_mlag: False
 
 service_routing_protocols_model: multi-agent
@@ -110,12 +110,6 @@ vlans:
   20:
     tenant: Tenant_A
     name: Twenty-web
-  30:
-    tenant: Tenant_A
-    name: Thirty-app
-  40:
-    tenant: Tenant_A
-    name: Forty-db
 
 ### VRFs ###
 vrfs:
@@ -169,14 +163,6 @@ ethernet_interfaces:
     mode: access
     vlans: 20
     spanning_tree_portfast: edge
-  Ethernet12:
-    peer: HostF
-    peer_interface: eth0
-    peer_type: server
-    description: HostF_eth0
-    mode: access
-    vlans: 40
-    spanning_tree_portfast: edge
 
 
 ### Loopback Interfaces ###
@@ -217,18 +203,6 @@ vlan_interfaces:
     description: Twenty-web
     vrf: A
     ip_address_virtual: 20.20.20.1/24
-  Vlan30:
-    tenant: Tenant_A
-    tags: ['app']
-    description: Thirty-app
-    vrf: A
-    ip_address_virtual: 30.30.30.1/24
-  Vlan40:
-    tenant: Tenant_A
-    tags: ['db']
-    description: Forty-db
-    vrf: A
-    ip_address_virtual: 40.40.40.1/24
 
 ### VxLAN interface ###
 vxlan_tunnel_interface:
@@ -243,10 +217,6 @@ vxlan_tunnel_interface:
           vni: 10010
         20:
           vni: 10020
-        30:
-          vni: 10030
-        40:
-          vni: 10040
       vrfs:
 ## Tenant_A ##
         A:
@@ -353,7 +323,7 @@ router_bgp:
           - "51:51"
       redistribute_routes:
         - learned
-      vlan: 10,20,30,40
+      vlan: 10,20
   vlans:
   vrfs:
 ## Tenant_A ##

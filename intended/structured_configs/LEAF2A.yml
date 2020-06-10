@@ -9,11 +9,11 @@ switch_platform: 7280R
 leaf_bgp_as: 65003
 leaf_id: 19
 switch_mgmt_ip: 192.168.100.33/24
-leaf_filter_tenants: ['all']
-leaf_filter_tags: ['opzone', 'web', 'app', 'db']
+leaf_filter_tenants: ['Tenant_A']
+leaf_filter_tags: ['opzone', 'web', 'app']
 leaf_allowed_vrfs: ['A']
-leaf_allowed_svis: [10, 20, 30, 40]
-leaf_allowed_vlans: [10, 20, 30, 40]
+leaf_allowed_svis: [10, 20, 30]
+leaf_allowed_vlans: [10, 20, 30]
 leaf_mlag: True
 leaf_mlag_group: DC1_LEAF2
 leaf_mlag_role: primary
@@ -131,9 +131,6 @@ vlans:
   30:
     tenant: Tenant_A
     name: Thirty-app
-  40:
-    tenant: Tenant_A
-    name: Forty-db
   3050:
     tenant: Tenant_A
     name: MLAG_iBGP_A
@@ -170,12 +167,6 @@ port_channel_interfaces:
     vlans: 30
     mode: access
     mlag: 10
-    spanning_tree_portfast: edge
-  Port-Channel11:
-    description: HostE_bond0
-    vlans: 20
-    mode: access
-    mlag: 11
     spanning_tree_portfast: edge
 
 ### Ethernet Interfaces ###
@@ -223,17 +214,6 @@ ethernet_interfaces:
     spanning_tree_portfast: edge
     channel_group:
       id: 10
-      mode: "active"
-  Ethernet11:
-    peer: HostE
-    peer_interface: eth0
-    peer_type: server
-    description: HostE_eth0
-    mode: access
-    vlans: 20
-    spanning_tree_portfast: edge
-    channel_group:
-      id: 11
       mode: "active"
 
 
@@ -289,12 +269,6 @@ vlan_interfaces:
     description: Thirty-app
     vrf: A
     ip_address_virtual: 30.30.30.1/24
-  Vlan40:
-    tenant: Tenant_A
-    tags: ['db']
-    description: Forty-db
-    vrf: A
-    ip_address_virtual: 40.40.40.1/24
   Vlan3050:
     tenant: Tenant_A
     type: underlay_peering
@@ -319,8 +293,6 @@ vxlan_tunnel_interface:
           vni: 10020
         30:
           vni: 10030
-        40:
-          vni: 10040
       vrfs:
 ## Tenant_A ##
         A:
@@ -454,7 +426,7 @@ router_bgp:
           - "51:51"
       redistribute_routes:
         - learned
-      vlan: 10,20,30,40
+      vlan: 10,20,30
   vlans:
   vrfs:
 ## Tenant_A ##

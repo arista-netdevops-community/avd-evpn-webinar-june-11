@@ -40,6 +40,7 @@ ip_domain_lookup:
 
 # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment
 ntp_servers:
+  # - 192.232.20.87
   - 216.239.35.4
 
 timezone: "America/Detroit"

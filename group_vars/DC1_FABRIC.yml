@@ -67,7 +67,7 @@ l3leaf:
       bgp_as: 65002
       filter:
         tenants: [ Tenant_A ]
-        tags: [ opzone, web, app, db ]
+        tags: [ opzone, web, db ]
       nodes:
         LEAF1A:
           id: 9
@@ -76,8 +76,8 @@ l3leaf:
     DC1_LEAF2:
       bgp_as: 65003
       filter:
-        tenants: [ all ]
-        tags: [ opzone, web, app, db ]
+        tenants: [ Tenant_A ]
+        tags: [ opzone, web, app ]
       nodes:
         LEAF2A:
           id: 19

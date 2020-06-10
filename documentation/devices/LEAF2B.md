@@ -255,7 +255,6 @@ username cvpadmin privilege 15 secret sha512 $6$u5wM2GSl324m5EF0$AM98W2MI4ISBciP
 | 10 | Ten-opzone | none  |
 | 20 | Twenty-web | none  |
 | 30 | Thirty-app | none  |
-| 40 | Forty-db | none  |
 | 3050 | MLAG_iBGP_A | LEAF_PEER_L3  |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3  |
 | 4094 | MLAG_PEER | MLAG  |
@@ -272,9 +271,6 @@ vlan 20
 !
 vlan 30
    name Thirty-app
-!
-vlan 40
-   name Forty-db
 !
 vlan 3050
    name MLAG_iBGP_A
@@ -314,7 +310,6 @@ vrf instance MGMT
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | --- | ---------- | ------------ |
 | Port-Channel10 | HostC_bond0 | 1500 | switched | access | 30 | - | 10 | - | - | - |
-| Port-Channel11 | HostE_bond0 | 1500 | switched | access | 20 | - | 11 | - | - | - |
 | Port-Channel47 | MLAG_PEER_LEAF2A_Po47 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
@@ -325,12 +320,6 @@ interface Port-Channel10
    description HostC_bond0
    switchport access vlan 30
    mlag 10
-   spanning-tree portfast
-!
-interface Port-Channel11
-   description HostE_bond0
-   switchport access vlan 20
-   mlag 11
    spanning-tree portfast
 !
 interface Port-Channel47
@@ -350,7 +339,6 @@ interface Port-Channel47
 | Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.77/31 | - | - |
 | Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.79/31 | - | - |
 | Ethernet10 | HostC_eth1 | *1500 | *switched | *access | *30 | - | - | - | 10 | active |
-| Ethernet11 | HostE_eth1 | *1500 | *switched | *access | *20 | - | - | - | 11 | active |
 | Ethernet12 | HostD_eth0 | 1500 | switched | access | 10 | - | - | - | - | - |
 | Ethernet47 | MLAG_PEER_LEAF2A_Ethernet47 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
 | Ethernet48 | MLAG_PEER_LEAF2A_Ethernet48 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
@@ -376,10 +364,6 @@ interface Ethernet2
 interface Ethernet10
    description HostC_eth1
    channel-group 10 mode active
-!
-interface Ethernet11
-   description HostE_eth1
-   channel-group 11 mode active
 !
 interface Ethernet12
    description HostD_eth0
@@ -442,7 +426,6 @@ interface Loopback100
 | Vlan10 | Ten-opzone | A | - | 10.10.10.1/24 | - |
 | Vlan20 | Twenty-web | A | - | 20.20.20.1/24 | - |
 | Vlan30 | Thirty-app | A | - | 30.30.30.1/24 | - |
-| Vlan40 | Forty-db | A | - | 40.40.40.1/24 | - |
 | Vlan3050 | MLAG_PEER_L3_iBGP: vrf A | A | 10.255.251.37/31 | - | - |
 | Vlan4093 | MLAG_PEER_L3_PEERING | Global Routing Table | 10.255.251.37/31 | - | - |
 | Vlan4094 | MLAG_PEER | Global Routing Table | 10.255.252.37/31 | - | - |
@@ -465,11 +448,6 @@ interface Vlan30
    description Thirty-app
    vrf A
    ip address virtual 30.30.30.1/24
-!
-interface Vlan40
-   description Forty-db
-   vrf A
-   ip address virtual 40.40.40.1/24
 !
 interface Vlan3050
    description MLAG_PEER_L3_iBGP: vrf A
@@ -501,7 +479,6 @@ interface Vlan4094
 | 10 | 10010 |
 | 20 | 10020 |
 | 30 | 10030 |
-| 40 | 10040 |
 
 **VRF to VNI Mappings:**
 
@@ -520,7 +497,6 @@ interface Vxlan1
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
    vxlan vlan 30 vni 10030
-   vxlan vlan 40 vni 10040
    vxlan vrf A vni 51
 ```
 
@@ -770,7 +746,7 @@ No Peer Filters defined
 
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
-| A | 1.1.1.22:51 |  51:51  |  |  | learned | 10,20,30,40 |
+| A | 1.1.1.22:51 |  51:51  |  |  | learned | 10,20,30 |
 
 
 #### Router BGP EVPN VRFs
@@ -821,7 +797,7 @@ router bgp 65003
       rd 1.1.1.22:51
       route-target both 51:51
       redistribute learned
-      vlan 10,20,30,40
+      vlan 10,20,30
    !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate

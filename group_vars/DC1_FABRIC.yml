@@ -76,8 +76,8 @@ l3leaf:
     DC1_LEAF2:
       bgp_as: 65003
       filter:
-        tenants: [ Tenant_A ]
-        tags: [ opzone, web, app ]
+        tenants: [ Tenant_A, Tenant_B ]
+        tags: [ opzone, web, app, db2 ]
       nodes:
         LEAF2A:
           id: 19

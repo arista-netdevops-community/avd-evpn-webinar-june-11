@@ -255,9 +255,14 @@ username cvpadmin privilege 15 secret sha512 $6$u5wM2GSl324m5EF0$AM98W2MI4ISBciP
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
 | 10 | Ten-opzone | none  |
+| 11 | Eleven-opzone | none  |
 | 20 | Twenty-web | none  |
+| 21 | TwentyOne-web | none  |
 | 30 | Thirty-app | none  |
+| 31 | ThirtyOne-app | none  |
+| 41 | FortyOne-db | none  |
 | 3050 | MLAG_iBGP_A | LEAF_PEER_L3  |
+| 3150 | MLAG_iBGP_B | LEAF_PEER_L3  |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3  |
 | 4094 | MLAG_PEER | MLAG  |
 
@@ -268,14 +273,30 @@ username cvpadmin privilege 15 secret sha512 $6$u5wM2GSl324m5EF0$AM98W2MI4ISBciP
 vlan 10
    name Ten-opzone
 !
+vlan 11
+   name Eleven-opzone
+!
 vlan 20
    name Twenty-web
+!
+vlan 21
+   name TwentyOne-web
 !
 vlan 30
    name Thirty-app
 !
+vlan 31
+   name ThirtyOne-app
+!
+vlan 41
+   name FortyOne-db
+!
 vlan 3050
    name MLAG_iBGP_A
+   trunk group LEAF_PEER_L3
+!
+vlan 3150
+   name MLAG_iBGP_B
    trunk group LEAF_PEER_L3
 !
 vlan 4093
@@ -294,6 +315,7 @@ vlan 4094
 | VRF Name | IP Routing |
 | -------- | ---------- |
 | A |  enabled |
+| B |  enabled |
 | MGMT |  disabled |
 
 ### VRF Instances Device Configuration
@@ -301,6 +323,8 @@ vlan 4094
 ```eos
 !
 vrf instance A
+!
+vrf instance B
 !
 vrf instance MGMT
 ```
@@ -392,6 +416,7 @@ IPv4
 | Loopback0 | EVPN_Overlay_Peering | Global Routing Table | 1.1.1.22/32 |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | Global Routing Table | 2.2.2.21/32 |
 | Loopback100 | A_VTEP_DIAGNOSTICS | A | 10.255.1.22/32 |
+| Loopback101 | B_VTEP_DIAGNOSTICS | B | 10.255.2.22/32 |
 
 IPv6
 
@@ -400,6 +425,7 @@ IPv6
 | Loopback0 | EVPN_Overlay_Peering | Global Routing Table | - |
 | Loopback1 | VTEP_VXLAN_Tunnel_Source | Global Routing Table | - |
 | Loopback100 | A_VTEP_DIAGNOSTICS | A | - |
+| Loopback101 | B_VTEP_DIAGNOSTICS | B | - |
 
 ### Loopback Interfaces Device Configuration
 
@@ -417,6 +443,11 @@ interface Loopback100
    description A_VTEP_DIAGNOSTICS
    vrf A
    ip address 10.255.1.22/32
+!
+interface Loopback101
+   description B_VTEP_DIAGNOSTICS
+   vrf B
+   ip address 10.255.2.22/32
 ```
 
 ## VLAN Interfaces
@@ -426,9 +457,14 @@ interface Loopback100
 | Interface | Description | VRF | IP Address | IP Address Virtual | IP Router Virtual Address (vARP) |
 | --------- | ----------- | --- | ---------- | ------------------ | -------------------------------- |
 | Vlan10 | Ten-opzone | A | - | 10.10.10.1/24 | - |
+| Vlan11 | Eleven-opzone | B | - | 11.11.11.1/24 | - |
 | Vlan20 | Twenty-web | A | - | 20.20.20.1/24 | - |
+| Vlan21 | TwentyOne-web | B | - | 21.21.21.1/24 | - |
 | Vlan30 | Thirty-app | A | - | 30.30.30.1/24 | - |
+| Vlan31 | ThirtyOne-app | B | - | 31.31.31.1/24 | - |
+| Vlan41 | FortyOne-db | B | - | 41.41.41.1/24 | - |
 | Vlan3050 | MLAG_PEER_L3_iBGP: vrf A | A | 10.255.251.37/31 | - | - |
+| Vlan3150 | MLAG_PEER_L3_iBGP: vrf B | B | 10.255.251.37/31 | - | - |
 | Vlan4093 | MLAG_PEER_L3_PEERING | Global Routing Table | 10.255.251.37/31 | - | - |
 | Vlan4094 | MLAG_PEER | Global Routing Table | 10.255.252.37/31 | - | - |
 
@@ -441,19 +477,44 @@ interface Vlan10
    vrf A
    ip address virtual 10.10.10.1/24
 !
+interface Vlan11
+   description Eleven-opzone
+   vrf B
+   ip address virtual 11.11.11.1/24
+!
 interface Vlan20
    description Twenty-web
    vrf A
    ip address virtual 20.20.20.1/24
+!
+interface Vlan21
+   description TwentyOne-web
+   vrf B
+   ip address virtual 21.21.21.1/24
 !
 interface Vlan30
    description Thirty-app
    vrf A
    ip address virtual 30.30.30.1/24
 !
+interface Vlan31
+   description ThirtyOne-app
+   vrf B
+   ip address virtual 31.31.31.1/24
+!
+interface Vlan41
+   description FortyOne-db
+   vrf B
+   ip address virtual 41.41.41.1/24
+!
 interface Vlan3050
    description MLAG_PEER_L3_iBGP: vrf A
    vrf A
+   ip address 10.255.251.37/31
+!
+interface Vlan3150
+   description MLAG_PEER_L3_iBGP: vrf B
+   vrf B
    ip address 10.255.251.37/31
 !
 interface Vlan4093
@@ -479,14 +540,19 @@ interface Vlan4094
 | VLAN | VNI |
 | ---- | --- |
 | 10 | 10010 |
+| 11 | 20011 |
 | 20 | 10020 |
+| 21 | 20021 |
 | 30 | 10030 |
+| 31 | 20031 |
+| 41 | 20041 |
 
 **VRF to VNI Mappings:**
 
 | VLAN | VNI |
 | ---- | --- |
 | A | 51 |
+| B | 151 |
 
 ### VXLAN Interface Device Configuration
 
@@ -497,9 +563,14 @@ interface Vxlan1
    vxlan virtual-router encapsulation mac-address mlag-system-id
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
+   vxlan vlan 11 vni 20011
    vxlan vlan 20 vni 10020
+   vxlan vlan 21 vni 20021
    vxlan vlan 30 vni 10030
+   vxlan vlan 31 vni 20031
+   vxlan vlan 41 vni 20041
    vxlan vrf A vni 51
+   vxlan vrf B vni 151
 ```
 
 ## Virtual Router MAC Address & Virtual Source NAT
@@ -512,6 +583,7 @@ interface Vxlan1
 | Source NAT VRF | Source NAT IP Address |
 | -------------- | --------------------- |
 | A | 10.255.1.22 |
+| B | 10.255.2.22 |
 
 ### Virtual Router MAC Address Device and Virtual Source NAT Configuration
 
@@ -519,6 +591,7 @@ interface Vxlan1
 !
 ip virtual-router mac-address aa:aa:bb:bb:cc:cc
 ip address virtual source-nat vrf A address 10.255.1.22
+ip address virtual source-nat vrf B address 10.255.2.22
 ```
 
 ## IPv6 Extended Access-lists
@@ -563,6 +636,7 @@ No Event Handler Defined
 | VRF | Routing Enabled |
 | --- | --------------- |
 | A | True |
+| B | True |
 | MGMT | False |
 
 ### IP Routing Device Configuration
@@ -571,6 +645,7 @@ No Event Handler Defined
 !
 ip routing
 ip routing vrf A
+ip routing vrf B
 no ip routing vrf MGMT
 ```
 
@@ -616,6 +691,7 @@ IPv6 Prefix lists not defined
 | VRF | IPv6 Routing Enabled |
 | --- | -------------------- |
 | A | False |
+| B | False |
 | MGMT | False |
 
 ### IPv6 Routing Device Configuration
@@ -749,6 +825,7 @@ No Peer Filters defined
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
 | A | 1.1.1.22:51 |  51:51  |  |  | learned | 10,20,30 |
+| B | 1.1.1.22:151 |  151:151  |  |  | learned | 11,21,31,41 |
 
 
 #### Router BGP EVPN VRFs
@@ -756,6 +833,7 @@ No Peer Filters defined
 | VRF | Route-Distinguisher | Redistribute |
 | --- | ------------------- | ------------ |
 | A | 1.1.1.22:51 | connected  |
+| B | 1.1.1.22:151 | connected  |
 
 ### Router BGP Device Configuration
 
@@ -801,6 +879,12 @@ router bgp 65003
       redistribute learned
       vlan 10,20,30
    !
+   vlan-aware-bundle B
+      rd 1.1.1.22:151
+      route-target both 151:151
+      redistribute learned
+      vlan 11,21,31,41
+   !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate
       no neighbor IPv4-UNDERLAY-PEERS activate
@@ -815,6 +899,14 @@ router bgp 65003
       rd 1.1.1.22:51
       route-target import evpn 51:51
       route-target export evpn 51:51
+      router-id 1.1.1.22
+      neighbor 10.255.251.36 peer group MLAG-IPv4-UNDERLAY-PEER
+      redistribute connected
+   !
+   vrf B
+      rd 1.1.1.22:151
+      route-target import evpn 151:151
+      route-target export evpn 151:151
       router-id 1.1.1.22
       neighbor 10.255.251.36 peer group MLAG-IPv4-UNDERLAY-PEER
       redistribute connected

@@ -9,11 +9,11 @@ switch_platform: 7280R
 leaf_bgp_as: 65003
 leaf_id: 20
 switch_mgmt_ip: 192.168.100.34/24
-leaf_filter_tenants: ['Tenant_A']
-leaf_filter_tags: ['opzone', 'web', 'app']
-leaf_allowed_vrfs: ['A']
-leaf_allowed_svis: [10, 20, 30]
-leaf_allowed_vlans: [10, 20, 30]
+leaf_filter_tenants: ['Tenant_A', 'Tenant_B']
+leaf_filter_tags: ['opzone', 'web', 'app', 'db2']
+leaf_allowed_vrfs: ['A', 'B']
+leaf_allowed_svis: [10, 20, 30, 11, 21, 31, 41]
+leaf_allowed_vlans: [10, 20, 30, 11, 21, 31, 41]
 leaf_mlag: True
 leaf_mlag_group: DC1_LEAF2
 leaf_mlag_role: secondary
@@ -137,6 +137,24 @@ vlans:
     name: MLAG_iBGP_A
     trunk_groups:
       - LEAF_PEER_L3
+## Tenant_B ##
+  11:
+    tenant: Tenant_B
+    name: Eleven-opzone
+  21:
+    tenant: Tenant_B
+    name: TwentyOne-web
+  31:
+    tenant: Tenant_B
+    name: ThirtyOne-app
+  41:
+    tenant: Tenant_B
+    name: FortyOne-db
+  3150:
+    tenant: Tenant_B
+    name: MLAG_iBGP_B
+    trunk_groups:
+      - LEAF_PEER_L3
 
 ### VRFs ###
 vrfs:
@@ -145,6 +163,10 @@ vrfs:
 ## Tenant_A ##
   A:
     tenant: Tenant_A
+    ip_routing: true
+## Tenant_B ##
+  B:
+    tenant: Tenant_B
     ip_routing: true
 
 ### bfd multihop ###
@@ -240,6 +262,11 @@ loopback_interfaces:
     description: A_VTEP_DIAGNOSTICS
     vrf: A
     ip_address: 10.255.1.22/32
+## Tenant_B ##
+  Loopback101:
+    description: B_VTEP_DIAGNOSTICS
+    vrf: B
+    ip_address: 10.255.2.22/32
 
 ### Management Interfaces ###
 management_interfaces:
@@ -284,6 +311,37 @@ vlan_interfaces:
     description: "MLAG_PEER_L3_iBGP: vrf A"
     vrf: A
     ip_address: 10.255.251.37/31
+## Tenant_B ##
+  Vlan11:
+    tenant: Tenant_B
+    tags: ['opzone']
+    description: Eleven-opzone
+    vrf: B
+    ip_address_virtual: 11.11.11.1/24
+  Vlan21:
+    tenant: Tenant_B
+    tags: ['web']
+    description: TwentyOne-web
+    vrf: B
+    ip_address_virtual: 21.21.21.1/24
+  Vlan31:
+    tenant: Tenant_B
+    tags: ['app']
+    description: ThirtyOne-app
+    vrf: B
+    ip_address_virtual: 31.31.31.1/24
+  Vlan41:
+    tenant: Tenant_B
+    tags: ['db2']
+    description: FortyOne-db
+    vrf: B
+    ip_address_virtual: 41.41.41.1/24
+  Vlan3150:
+    tenant: Tenant_B
+    type: underlay_peering
+    description: "MLAG_PEER_L3_iBGP: vrf B"
+    vrf: B
+    ip_address: 10.255.251.37/31
 
 ### VxLAN interface ###
 vxlan_tunnel_interface:
@@ -302,10 +360,22 @@ vxlan_tunnel_interface:
           vni: 10020
         30:
           vni: 10030
+## Tenant_B ##
+        11:
+          vni: 20011
+        21:
+          vni: 20021
+        31:
+          vni: 20031
+        41:
+          vni: 20041
       vrfs:
 ## Tenant_A ##
         A:
           vni: 51
+## Tenant_B ##
+        B:
+          vni: 151
 
 ### TCAM Profiles ###
 tcam_profile:
@@ -320,6 +390,9 @@ virtual_source_nat_vrfs:
 ## Tenant_A ##
   A:
     ip_address: 10.255.1.22
+## Tenant_B ##
+  B:
+    ip_address: 10.255.2.22
 
 ### static routes ###
 static_routes:
@@ -436,6 +509,15 @@ router_bgp:
       redistribute_routes:
         - learned
       vlan: 10,20,30
+## Tenant_B ##
+    B:
+      rd: "1.1.1.22:151"
+      route_targets:
+        both:
+          - "151:151"
+      redistribute_routes:
+        - learned
+      vlan: 11,21,31,41
   vlans:
   vrfs:
 ## Tenant_A ##
@@ -449,6 +531,22 @@ router_bgp:
         export:
           evpn:
             - "51:51"
+      neighbors:
+        10.255.251.36:
+          peer_group: MLAG-IPv4-UNDERLAY-PEER
+      redistribute_routes:
+        - connected
+## Tenant_B ##
+    B:
+      router_id: 1.1.1.22
+      rd: "1.1.1.22:151"
+      route_targets:
+        import:
+          evpn:
+            - "151:151"
+        export:
+          evpn:
+            - "151:151"
       neighbors:
         10.255.251.36:
           peer_group: MLAG-IPv4-UNDERLAY-PEER

@@ -255,6 +255,7 @@ username cvpadmin privilege 15 secret sha512 $6$u5wM2GSl324m5EF0$AM98W2MI4ISBciP
 | ------- | ---- | ------------ |
 | 10 | Ten-opzone | none  |
 | 20 | Twenty-web | none  |
+| 40 | Forty-db | none  |
 
 ### VLANs Device Configuration
 
@@ -265,6 +266,9 @@ vlan 10
 !
 vlan 20
    name Twenty-web
+!
+vlan 40
+   name Forty-db
 ```
 
 ## VRF Instances
@@ -375,6 +379,7 @@ interface Loopback100
 | --------- | ----------- | --- | ---------- | ------------------ | -------------------------------- |
 | Vlan10 | Ten-opzone | A | - | 10.10.10.1/24 | - |
 | Vlan20 | Twenty-web | A | - | 20.20.20.1/24 | - |
+| Vlan40 | Forty-db | A | - | 40.40.40.1/24 | - |
 
 ### VLAN Interfaces Device Configuration
 
@@ -389,6 +394,11 @@ interface Vlan20
    description Twenty-web
    vrf A
    ip address virtual 20.20.20.1/24
+!
+interface Vlan40
+   description Forty-db
+   vrf A
+   ip address virtual 40.40.40.1/24
 ```
 
 ## VXLAN Interface
@@ -404,6 +414,7 @@ interface Vlan20
 | ---- | --- |
 | 10 | 10010 |
 | 20 | 10020 |
+| 40 | 10040 |
 
 **VRF to VNI Mappings:**
 
@@ -420,6 +431,7 @@ interface Vxlan1
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
+   vxlan vlan 40 vni 10040
    vxlan vrf A vni 51
 ```
 
@@ -635,7 +647,7 @@ No Peer Filters defined
 
 | VLAN Aware Bundle | Route-Distinguisher | Both Route-Target | Import Route Target | Export Route-Target | Redistribute | VLANs |
 | ----------------- | ------------------- | ----------------- | ------------------- | ------------------- | ------------ | ----- |
-| A | 1.1.1.7:51 |  51:51  |  |  | learned | 10,20 |
+| A | 1.1.1.7:51 |  51:51  |  |  | learned | 10,20,40 |
 
 
 #### Router BGP EVPN VRFs
@@ -679,7 +691,7 @@ router bgp 65002
       rd 1.1.1.7:51
       route-target both 51:51
       redistribute learned
-      vlan 10,20
+      vlan 10,20,40
    !
    address-family evpn
       neighbor EVPN-OVERLAY-PEERS activate

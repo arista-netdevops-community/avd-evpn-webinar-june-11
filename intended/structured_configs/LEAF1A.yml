@@ -69,6 +69,7 @@ ntp_server:
     vrf: MGMT
     interface: Management1
   nodes:
+    - 192.232.20.87
     - 216.239.35.4
 
 ### Redundancy ###

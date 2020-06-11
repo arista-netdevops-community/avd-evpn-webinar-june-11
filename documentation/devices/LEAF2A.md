@@ -128,14 +128,16 @@ VRF: MGMT
 
 | Node | Primary |
 | ---- | ------- |
-| 216.239.35.4 | true |
+| 192.232.20.87 | true |
+| 216.239.35.4 | - |
 
 ### NTP Device Configuration
 
 ```eos
 !
 ntp local-interface vrf MGMT Management1
-ntp server vrf MGMT 216.239.35.4 prefer
+ntp server vrf MGMT 192.232.20.87 prefer
+ntp server vrf MGMT 216.239.35.4
 ```
 
 ## Router L2 VPN

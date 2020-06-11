@@ -9,7 +9,7 @@ p2p_uplinks_mtu: 9216
 
 # Point to Point Network Summary range, assigned as /31 for each uplink interfaces
 # Assign range larger then total [ spines * total potential leafs * 2 ]
-underlay_p2p_network_summary: 10.1.1.0/24
+underlay_p2p_network_summary: 10.2.1.0/24
 
 # IP address range for evpn loopback for all switches in fabric, assigned as /32s
 # Assign range larger then total spines + total leafs switches
@@ -70,7 +70,7 @@ l3leaf:
         tags: [ opzone, web, db ]
       nodes:
         LEAF1A:
-          id: 9
+          id: 5
           mgmt_ip: 192.168.100.32/24
           spine_interfaces: [ Ethernet1, Ethernet1 ]
     DC1_LEAF2:

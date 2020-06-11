@@ -40,18 +40,18 @@
 
 | P2P Summary | Available Addresses | Assigned addresses | Assigned Address % |
 | ----------- | ------------------- | ------------------ | ------------------ |
-| 10.1.1.0/24 | 256 | 12 | 4.69 % |
+| 10.2.1.0/24 | 256 | 12 | 4.69 % |
 
 ### Point-To-Point Links Node Allocation
 
 | Leaf Node | Leaf Interface | Leaf IP Address | Spine Node | Spine Interface | Spine IP Address |
 | --------- | -------------- | --------------- | ---------- | --------------- | ---------------- |
-| LEAF1A | Ethernet1 | 10.1.1.33/31 | SPINE1 | Ethernet1 | 10.1.1.32/31 |
-| LEAF1A | Ethernet2 | 10.1.1.35/31 | SPINE2 | Ethernet1 | 10.1.1.34/31 |
-| LEAF2A | Ethernet1 | 10.1.1.73/31 | SPINE1 | Ethernet2 | 10.1.1.72/31 |
-| LEAF2A | Ethernet2 | 10.1.1.75/31 | SPINE2 | Ethernet2 | 10.1.1.74/31 |
-| LEAF2B | Ethernet1 | 10.1.1.77/31 | SPINE1 | Ethernet3 | 10.1.1.76/31 |
-| LEAF2B | Ethernet2 | 10.1.1.79/31 | SPINE2 | Ethernet3 | 10.1.1.78/31 |
+| LEAF1A | Ethernet1 | 10.2.1.17/31 | SPINE1 | Ethernet1 | 10.2.1.16/31 |
+| LEAF1A | Ethernet2 | 10.2.1.19/31 | SPINE2 | Ethernet1 | 10.2.1.18/31 |
+| LEAF2A | Ethernet1 | 10.2.1.73/31 | SPINE1 | Ethernet2 | 10.2.1.72/31 |
+| LEAF2A | Ethernet2 | 10.2.1.75/31 | SPINE2 | Ethernet2 | 10.2.1.74/31 |
+| LEAF2B | Ethernet1 | 10.2.1.77/31 | SPINE1 | Ethernet3 | 10.2.1.76/31 |
+| LEAF2B | Ethernet2 | 10.2.1.79/31 | SPINE2 | Ethernet3 | 10.2.1.78/31 |
 
 ### Overlay Loopback Interfaces (BGP EVPN Peering)
 
@@ -65,7 +65,7 @@
 | ---- | --------- |
 | SPINE1 | 1.1.1.1/32 |
 | SPINE2 | 1.1.1.2/32 |
-| LEAF1A | 1.1.1.11/32 |
+| LEAF1A | 1.1.1.7/32 |
 | LEAF2A | 1.1.1.21/32 |
 | LEAF2B | 1.1.1.22/32 |
 
@@ -79,6 +79,6 @@
 
 | Node | Loopback1 |
 | ---- | --------- |
-| LEAF1A | 2.2.2.11/32 |
+| LEAF1A | 2.2.2.7/32 |
 | LEAF2A | 2.2.2.21/32 |
 | LEAF2B | 2.2.2.21/32 |

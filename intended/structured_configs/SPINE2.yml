@@ -109,7 +109,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF1A_Ethernet2
     mtu: 9216
     type: routed
-    ip_address: 10.1.1.34/31
+    ip_address: 10.2.1.18/31
   Ethernet2:
     peer: LEAF2A
     peer_interface: Ethernet2
@@ -117,7 +117,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF2A_Ethernet2
     mtu: 9216
     type: routed
-    ip_address: 10.1.1.74/31
+    ip_address: 10.2.1.74/31
   Ethernet3:
     peer: LEAF2B
     peer_interface: Ethernet2
@@ -125,7 +125,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_LEAF2B_Ethernet2
     mtu: 9216
     type: routed
-    ip_address: 10.1.1.78/31
+    ip_address: 10.2.1.78/31
 
 
 ### Loopback Interfaces ###
@@ -207,19 +207,19 @@ router_bgp:
       send_community: true
       maximum_routes: 0
   neighbors:
-    10.1.1.35:
+    10.2.1.19:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65002
-    1.1.1.11:
+    1.1.1.7:
       peer_group: EVPN-OVERLAY-PEERS
       remote_as: 65002
-    10.1.1.75:
+    10.2.1.75:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65003
     1.1.1.21:
       peer_group: EVPN-OVERLAY-PEERS
       remote_as: 65003
-    10.1.1.79:
+    10.2.1.79:
       peer_group: IPv4-UNDERLAY-PEERS
       remote_as: 65003
     1.1.1.22:

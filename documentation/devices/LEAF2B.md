@@ -338,8 +338,8 @@ interface Port-Channel47
 
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (Trunk) | Trunk Group | VRF | IP Address | Channel-Group ID | Channel-Group Type |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | --- | ---------- | ---------------- | ------------------ |
-| Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.77/31 | - | - |
-| Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet3 | 9216 | routed | access | - | - | - | 10.1.1.79/31 | - | - |
+| Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet3 | 9216 | routed | access | - | - | - | 10.2.1.77/31 | - | - |
+| Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet3 | 9216 | routed | access | - | - | - | 10.2.1.79/31 | - | - |
 | Ethernet10 | HostC_eth1 | *1500 | *switched | *access | *30 | - | - | - | 10 | active |
 | Ethernet12 | HostD_eth0 | 1500 | switched | access | 10 | - | - | - | - | - |
 | Ethernet47 | MLAG_PEER_LEAF2A_Ethernet47 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
@@ -355,13 +355,13 @@ interface Ethernet1
    description P2P_LINK_TO_SPINE1_Ethernet3
    mtu 9216
    no switchport
-   ip address 10.1.1.77/31
+   ip address 10.2.1.77/31
 !
 interface Ethernet2
    description P2P_LINK_TO_SPINE2_Ethernet3
    mtu 9216
    no switchport
-   ip address 10.1.1.79/31
+   ip address 10.2.1.79/31
 !
 interface Ethernet10
    description HostC_eth1
@@ -589,7 +589,7 @@ no ip routing vrf MGMT
 
 | Sequence | Action |
 | -------- | ------ |
-| 10 | permit 10.1.1.0/24 le 31 |
+| 10 | permit 10.2.1.0/24 le 31 |
 | 20 | permit 10.255.251.0/24 le 31 |
 
 ### Prefix Lists Device Configuration
@@ -601,7 +601,7 @@ ip prefix-list PL-LOOPBACKS-EVPN-OVERLAY
    seq 20 permit 2.2.2.0/24 eq 32
 !
 ip prefix-list PL-P2P-UNDERLAY
-   seq 10 permit 10.1.1.0/24 le 31
+   seq 10 permit 10.2.1.0/24 le 31
    seq 20 permit 10.255.251.0/24 le 31
 ```
 
@@ -736,8 +736,8 @@ No Peer Filters defined
 | -------- | ---------
 | 1.1.1.1 | Inherited from peer group EVPN-OVERLAY-PEERS |
 | 1.1.1.2 | Inherited from peer group EVPN-OVERLAY-PEERS |
-| 10.1.1.76 | Inherited from peer group IPv4-UNDERLAY-PEERS |
-| 10.1.1.78 | Inherited from peer group IPv4-UNDERLAY-PEERS |
+| 10.2.1.76 | Inherited from peer group IPv4-UNDERLAY-PEERS |
+| 10.2.1.78 | Inherited from peer group IPv4-UNDERLAY-PEERS |
 | 10.255.251.36 | Inherited from peer group MLAG-IPv4-UNDERLAY-PEER |
 
 ### Router BGP EVPN Address Family
@@ -790,8 +790,8 @@ router bgp 65003
    neighbor MLAG-IPv4-UNDERLAY-PEER maximum-routes 12000
    neighbor 1.1.1.1 peer group EVPN-OVERLAY-PEERS
    neighbor 1.1.1.2 peer group EVPN-OVERLAY-PEERS
-   neighbor 10.1.1.76 peer group IPv4-UNDERLAY-PEERS
-   neighbor 10.1.1.78 peer group IPv4-UNDERLAY-PEERS
+   neighbor 10.2.1.76 peer group IPv4-UNDERLAY-PEERS
+   neighbor 10.2.1.78 peer group IPv4-UNDERLAY-PEERS
    neighbor 10.255.251.36 peer group MLAG-IPv4-UNDERLAY-PEER
    redistribute connected route-map RM-CONN-2-BGP
    !

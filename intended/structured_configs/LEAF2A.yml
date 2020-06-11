@@ -179,7 +179,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_SPINE1_Ethernet2
     mtu: 9216
     type: routed
-    ip_address: 10.1.1.73/31
+    ip_address: 10.2.1.73/31
   Ethernet2:
     peer: SPINE2
     peer_interface: Ethernet2
@@ -187,7 +187,7 @@ ethernet_interfaces:
     description: P2P_LINK_TO_SPINE2_Ethernet2
     mtu: 9216
     type: routed
-    ip_address: 10.1.1.75/31
+    ip_address: 10.2.1.75/31
 ## mlag interfaces ##
   Ethernet47:
     peer: LEAF2B
@@ -330,7 +330,7 @@ prefix_lists:
   PL-P2P-UNDERLAY:
     sequence_numbers:
       10:
-        action: "permit 10.1.1.0/24 le 31"
+        action: "permit 10.2.1.0/24 le 31"
       20:
         action: "permit 10.255.251.0/24 le 31"
 
@@ -389,9 +389,9 @@ router_bgp:
       maximum_routes: 12000
       send_community: true
   neighbors:
-    10.1.1.72:
+    10.2.1.72:
       peer_group: IPv4-UNDERLAY-PEERS
-    10.1.1.74:
+    10.2.1.74:
       peer_group: IPv4-UNDERLAY-PEERS
     1.1.1.1:
       peer_group: EVPN-OVERLAY-PEERS

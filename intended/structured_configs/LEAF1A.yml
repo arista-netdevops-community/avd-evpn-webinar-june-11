@@ -167,6 +167,14 @@ ethernet_interfaces:
     mode: access
     vlans: 20
     spanning_tree_portfast: edge
+  Ethernet12:
+    peer: HostF
+    peer_interface: eth0
+    peer_type: server
+    description: HostF_eth0
+    mode: access
+    vlans: 40
+    spanning_tree_portfast: edge
 
 
 ### Loopback Interfaces ###

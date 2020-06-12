@@ -303,6 +303,7 @@ No Port-Channels defined
 | Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet1 | 9216 | routed | access | - | - | - | 10.2.1.19/31 | - | - |
 | Ethernet10 | HostA_eth0 | 1500 | switched | access | 10 | - | - | - | - | - |
 | Ethernet11 | HostB_eth0 | 1500 | switched | access | 20 | - | - | - | - | - |
+| Ethernet12 | HostF_eth0 | 1500 | switched | access | 40 | - | - | - | - | - |
 
 *Inherited from Port-Channel Interface
 
@@ -330,6 +331,11 @@ interface Ethernet10
 interface Ethernet11
    description HostB_eth0
    switchport access vlan 20
+   spanning-tree portfast
+!
+interface Ethernet12
+   description HostF_eth0
+   switchport access vlan 40
    spanning-tree portfast
 ```
 

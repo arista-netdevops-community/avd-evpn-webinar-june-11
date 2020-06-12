@@ -191,6 +191,12 @@ port_channel_interfaces:
     mode: access
     mlag: 10
     spanning_tree_portfast: edge
+  Port-Channel11:
+    description: HostE_bond0
+    vlans: 20
+    mode: access
+    mlag: 11
+    spanning_tree_portfast: edge
 
 ### Ethernet Interfaces ###
 ethernet_interfaces:
@@ -237,6 +243,17 @@ ethernet_interfaces:
     spanning_tree_portfast: edge
     channel_group:
       id: 10
+      mode: "active"
+  Ethernet11:
+    peer: HostE
+    peer_interface: eth0
+    peer_type: server
+    description: HostE_eth0
+    mode: access
+    vlans: 20
+    spanning_tree_portfast: edge
+    channel_group:
+      id: 11
       mode: "active"
 
 

@@ -336,6 +336,7 @@ vrf instance MGMT
 | Interface | Description | MTU | Type | Mode | Allowed VLANs (trunk) | Trunk Group | MLAG ID | VRF | IP Address | IPv6 Address |
 | --------- | ----------- | --- | ---- | ---- | --------------------- | ----------- | ------- | --- | ---------- | ------------ |
 | Port-Channel10 | HostC_bond0 | 1500 | switched | access | 30 | - | 10 | - | - | - |
+| Port-Channel11 | HostE_bond0 | 1500 | switched | access | 20 | - | 11 | - | - | - |
 | Port-Channel47 | MLAG_PEER_LEAF2B_Po47 | 1500 | switched | trunk | 2-4094 | LEAF_PEER_L3<br> MLAG | - | - | - | - |
 
 ### Port-Channel Interfaces Device Configuration
@@ -346,6 +347,12 @@ interface Port-Channel10
    description HostC_bond0
    switchport access vlan 30
    mlag 10
+   spanning-tree portfast
+!
+interface Port-Channel11
+   description HostE_bond0
+   switchport access vlan 20
+   mlag 11
    spanning-tree portfast
 !
 interface Port-Channel47
@@ -365,6 +372,7 @@ interface Port-Channel47
 | Ethernet1 | P2P_LINK_TO_SPINE1_Ethernet2 | 9216 | routed | access | - | - | - | 10.2.1.73/31 | - | - |
 | Ethernet2 | P2P_LINK_TO_SPINE2_Ethernet2 | 9216 | routed | access | - | - | - | 10.2.1.75/31 | - | - |
 | Ethernet10 | HostC_eth0 | *1500 | *switched | *access | *30 | - | - | - | 10 | active |
+| Ethernet11 | HostE_eth0 | *1500 | *switched | *access | *20 | - | - | - | 11 | active |
 | Ethernet47 | MLAG_PEER_LEAF2B_Ethernet47 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
 | Ethernet48 | MLAG_PEER_LEAF2B_Ethernet48 | *1500 | *switched | *trunk | *2-4094 | *LEAF_PEER_L3<br> *MLAG | - | - | 47 | active |
 
@@ -389,6 +397,10 @@ interface Ethernet2
 interface Ethernet10
    description HostC_eth0
    channel-group 10 mode active
+!
+interface Ethernet11
+   description HostE_eth0
+   channel-group 11 mode active
 !
 interface Ethernet47
    description MLAG_PEER_LEAF2B_Ethernet47

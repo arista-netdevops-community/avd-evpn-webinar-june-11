@@ -55,20 +55,20 @@ servers:
         switches: [ LEAF2B ]
         profile: VLAN_10
 
-  # HostE:
-  #   adapters:
-  #     - server_ports: [ eth0, eth1 ]
-  #       switch_ports: [ Ethernet11, Ethernet11 ]
-  #       switches: [ LEAF2A, LEAF2B ]
-  #       profile: VLAN_20
-  #       port_channel:
-  #         state: present
-  #         description: bond0
-  #         mode: active
+  HostE:
+    adapters:
+      - server_ports: [ eth0, eth1 ]
+        switch_ports: [ Ethernet11, Ethernet11 ]
+        switches: [ LEAF2A, LEAF2B ]
+        profile: VLAN_20
+        port_channel:
+          state: present
+          description: bond0
+          mode: active
 
-  # HostF:
-  #   adapters:
-  #     - server_ports: [ eth0 ]
-  #       switch_ports: [ Ethernet12 ]
-  #       switches: [ LEAF1A ]
-  #       profile: VLAN_40
+  HostF:
+    adapters:
+      - server_ports: [ eth0 ]
+        switch_ports: [ Ethernet12 ]
+        switches: [ LEAF1A ]
+        profile: VLAN_40
